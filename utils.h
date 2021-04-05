@@ -65,7 +65,7 @@ void client_sock_t_listen(client_sock_t *sock, void (*f)(int, char *, size_t)) {
   char buffer[BUFFER_SIZE];
   while (1) {
     memset(buffer, '\0', BUFFER_SIZE); // make sure buffer is empty
-    if (recv(sock->socket_fd, buffer, BUFFER_SIZE, 0) < 0) {
+    if (recv(sock->socket_fd, buffer, BUFFER_SIZE - 1, 0) < 0) {
       perror("recv() failed");
     } else
       (*f)(sock->socket_fd, buffer,
