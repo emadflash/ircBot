@@ -73,4 +73,31 @@ void client_sock_t_listen(client_sock_t *sock, void (*f)(int, char *, size_t)) {
   }
 }
 
+void tor_connect(client_sock_t *tor_client) {
+  if (client_sock_t_initialize(tor_client) < 0) { // initialize tor connection
+    perror("tor_connect::client_sock_t_initialize() failed");
+    exit(EXIT_FAILURE);
+  }
+  if (client_sock_t_connect(tor_client) < 0) {
+    perror("tor_connect:client_sock_t_connect() failed");
+    exit(EXIT_FAILURE);
+  }
+  printf("tor_connect() connected to tor network\n");
+}
+
+void tor_authenticate(client_sock_t *tor_client) {
+  send(tor_client->socket_fd, (void *)0x05, 3, 0);
+
+  // check response if 0x0 then good
+  char response_token[2];
+  fprintf(stdout, "tor_authenticate() authenticating.....\n");
+  recv(tor_client->socket_fd, response_token, 2, 0);
+  if (response_token[1] != 0x0) {
+    perror("tor_authenticate() failed");
+    exit(EXIT_FAILURE);
+  }
+  printf("tor_authenticate() success\n");
+}
+
+
 #endif // UTILS_H
