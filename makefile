@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -O2 -fsanitize=address 
+CFLAGS = -g -Wall -fsanitize=address 
 OBJFILES = irc.o main.o
 TARGET = main
 
