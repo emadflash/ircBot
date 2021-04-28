@@ -6,6 +6,7 @@
 
 #include "./irc.h"
 #include "./utils.h"
+#include "./parser.h"
 
 char *irc_node = "irc.freenode.net";
 const int port = 6667;
@@ -18,6 +19,11 @@ void callback(int socket_fd, char *buffer, size_t len) {
       perror("irc_pong failed");
     }
   }
+  printf("%s", buffer);
+  BUFF_CONTENT* parsed_content = malloc(sizeof(BUFF_CONTENT));
+  parsed_content = getBufContent(buffer, len);
+  printf("%s", parsed_content->nick);   // test printing nick
+  free(parsed_content);
 }
 
 int main() {
