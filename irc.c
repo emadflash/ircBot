@@ -20,7 +20,7 @@ void LOGIN_INFO_DESTROY(LOGIN_INFO *c) { free(c); }
 
 int is_pong_request(char *msg) {
   char tmp[5];
-  if (memcpy(tmp, msg, 4) < 0 || strlen(msg) <= 0) {
+  if (memcpy(tmp, msg, 4) == NULL || strlen(msg) <= 0) {
     return -1;
   }
   tmp[4] = '\0';

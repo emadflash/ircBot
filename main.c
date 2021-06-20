@@ -6,9 +6,8 @@
 
 #include "./irc.h"
 #include "./utils.h"
-#include "./parser.h"
 
-char *irc_node = "irc.freenode.net";
+char *node = "irc.freenode.net";
 const int port = 6667;
 
 void callback(int socket_fd, char *buffer, size_t len) {
@@ -16,19 +15,15 @@ void callback(int socket_fd, char *buffer, size_t len) {
    */
   if (is_pong_request(buffer) == 0) {
     if (irc_pong(socket_fd, buffer, RECV_BUFSIZE) < 0) {
-      perror("irc_pong failed");
+      perror("irc_pong() failed");
     }
   }
-  printf("%s", buffer);
-  BUFF_CONTENT* parsed_content = malloc(sizeof(BUFF_CONTENT));
-  parsed_content = getBufContent(buffer, len);
-  printf("%s", parsed_content->nick);   // test printing nick
-  free(parsed_content);
+
 }
 
 int main() {
   client_sock_t *client = (client_sock_t *)calloc(1, sizeof(client_sock_t));
-  strcpy(client->ip, irc_node);
+  strcpy(client->ip, node);
   client->port = port;
 
   if (client_sock_t_initialize(client) < 0) {
@@ -50,7 +45,7 @@ int main() {
 
   LOGIN_INFO_DESTROY(c);
 
-  if ((irc_join(client->socket_fd, "#networking")) < 0) {
+  if ((irc_join(client->socket_fd, "#networking, #quick-lint-js")) < 0) {
     perror("irc_join() failed");
   }
 

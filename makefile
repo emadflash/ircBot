@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wall -fsanitize=address 
-OBJFILES = irc.o main.o parser.o
-TARGET = main
+OBJFILES = buil/irc.o buil/main.o buil/parser.o
+TARGET = build/main
 
 all: $(TARGET)
 
