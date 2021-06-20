@@ -5,8 +5,8 @@
 #define RECV_BUFSIZE 4096
 
 #include "client.h"
-#include "irc.h"
 #include "config.h"
+#include "irc.h"
 
 void callback(int socket_fd, char *buffer, size_t len) {
     /* if receive ping request then send authentication token
